@@ -1,0 +1,87 @@
+consent = False
+while consent == False:
+    account_choice = int(input("Would you like to login or create an account? \n1. Login \n2. Create \n"))
+    if account_choice == 1 or account_choice == 2:
+        consent = True
+        break
+    else:
+        print("Please enter valid choice.\n")
+ 
+check_info = open("users_info.txt", "r")
+
+#Login
+if account_choice == 1:
+    #Checks username and password
+    correct_credentials = False
+    while correct_credentials == False:
+        check_username = input("Please enter your username\n")
+        check_password = input("Please enter your password\n")
+        for line in check_info:
+            info = line.split(", ")
+            if check_username == info[0] and check_password == info[1].strip():
+                print(f"Welcome {check_username}!\n")
+                correct_credentials = True
+                break
+            else:
+                print("Invalid credentials, please try again")
+    check_info.close()
+
+read_info = open("users_info.txt", "r")
+add_info = open("users_info.txt", "a")
+
+#Create
+if account_choice == 2:
+    new_info_valid = False
+    while new_info_valid == False:
+        print("Create your account info with the following parameters:")
+        create_username = input("Username must be 4-12 characters\n")
+        create_password = input("Password must be 6-10 characters\n")
+        #Sees if length parameters are met
+        if len(create_username) >= 4 and len(create_username) <=12 and len(create_password) >=6 and len(create_password) <= 10:
+            for line in read_info:
+                new_info = line.split(", ")
+                #Sees if username is taken
+                if create_username == new_info[0]:
+                    print("Username taken, please enter a new username")
+                    break
+                else:
+                    new_info_valid = True
+                    break
+            if new_info_valid == True:
+                add_info.write(f"{create_username}, {create_password}\n")
+                print(f"Welcome {create_username}!")
+        else:
+            print("Please enter valid information")
+    read_info.close()
+    add_info.close()
+
+
+
+
+
+#Asks number of students
+is_number_of_students_valid = False
+while is_number_of_students_valid == False:
+    num_of_students = input("How many students are you grading?\n")
+    if num_of_students.isnumeric() == False:
+        print("Please enter a valid number of students\n")
+    else:
+            is_number_of_students_valid = True
+
+usable_student_number = int(num_of_students)
+for i in range(usable_student_number):
+    student_name = input("Name of student:\n")
+    is_score_valid = False
+    while is_score_valid == False:
+        score = input("Student's score:\n")
+        if score.isnumeric() == False:
+            print("Please enter a valid score")
+        else:
+            if score < 60:
+                student_grade = "F"
+            else:
+                if score <= 70 and score >= 60:
+                    student_grade = "D"
+                    
+
+    if score <  
