@@ -1,0 +1,39 @@
+from fileinput import filename
+from sysconfig import get_makefile_filename
+
+def get_file_name():
+    #prompt user to enter file name
+    prompted = False
+    while prompted == False:
+        entered_name = input("Please enter file name: ")
+        #make sure entered a value
+        if  len(entered_name) > 0:
+            return entered_name
+        #if user did not enter value. Display error message and 
+        #ask the user to reenter value
+        else:
+            print("Invalid string, please enter a valid name")
+    #else return the value
+    pass
+
+def load_numbers_list(file_name):
+    numbers_list = []
+    #open the file
+    file = open(file_name, "r")
+    #read file line by line
+    for number in file:
+        #convert to int and append numbers to a list
+        numbers_list.append(int(number))
+    #return the list
+    pass
+
+
+def main():
+    #ask user to enter filename and open that file
+    file_name = get_file_name()
+
+    #load number from file into a list
+    list_of_numbers = load_numbers_list(file_name)
+
+    print(list_of_numbers)
+main()
