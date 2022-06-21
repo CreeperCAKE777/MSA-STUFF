@@ -1,5 +1,4 @@
-from fileinput import filename
-from sysconfig import get_makefile_filename
+import os.path
 
 def get_file_name():
     #prompt user to enter file name
@@ -7,12 +6,14 @@ def get_file_name():
     while prompted == False:
         entered_name = input("Please enter file name: ")
         #make sure entered a value
-        if  len(entered_name) > 0:
-            return entered_name
+        if  len(entered_name) < 1:
+            print("Invalid string, please enter a valid name")
         #if user did not enter value. Display error message and 
         #ask the user to reenter value
+        elif not os.path.exists(entered_name):
+            print("File does not exist. \n")
         else:
-            print("Invalid string, please enter a valid name")
+            return entered_name
     #else return the value
     pass
 
