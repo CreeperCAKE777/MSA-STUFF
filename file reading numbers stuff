@@ -1,22 +1,25 @@
 import os.path
+from statistics import median
 
 def get_file_name():
-    #prompt user to enter file name
-    prompted = False
-    while prompted == False:
-        entered_name = input("Please enter file name: ")
-        #make sure entered a value
-        if  len(entered_name) < 1:
-            print("Invalid string, please enter a valid name")
-        #if user did not enter value. Display error message and 
-        #ask the user to reenter value
-        elif not os.path.exists(entered_name):
-            print("File does not exist. \n")
+    while True:
+        #prompt user to enter file name
+        user_input = input("Please enter a file name: ")
+        #make sure user entered a value. Re prompt if not
+        if user_input == "":
+            print("ERROR: please enter a value.\n")
+            continue
+        elif not os.path.exists(user_input):
+            print("ERROR: File does not exist.\n")
+            continue
         else:
-            return entered_name
+            break
     #else return the value
-    pass
+    return user_input
 
+#Function to load numbers from file into list
+#Parameters: file name
+#returns a list of numbers
 def load_numbers_list(file_name):
     numbers_list = []
     #open the file
@@ -26,15 +29,109 @@ def load_numbers_list(file_name):
         #convert to int and append numbers to a list
         numbers_list.append(int(number))
     #return the list
-    pass
+    return numbers_list
+
+def sum_of_list(numbers_list):
+    sum_of_numbers = sum(numbers_list)
+    return sum_of_numbers
+
+def calculate_median_value(numbers_list):
+    #sort the list
+    numbers_list.sort()
+    #determine if the list has an even or odd number of items using the len() function
+    if (len(numbers_list) % 2 == 0):
+        is_even = True
+    else:
+        is_even = False
+    #if even find the two middle values and calculate the average of the two
+    if is_even:
+        index_1 = int(len(numbers_list) / 2)
+        index_2 = index_1 - 1
+        median = (numbers_list[index_1] + numbers_list[index_2]) / 2
+    #if odd, return the middle value
+    else:
+        index = int((len(numbers_list) - 1) / 2)
+        median = numbers_list[index]
+ 
+    return median
+
+def determine_modal_value(numbers_list):
+    #create a dictionary to store list vals and freqs
+    modal_values = {}
+    list_of_modal_values = []
+    #loop through list
+    for number in numbers_list:
+        #if the number is in the dictionary then add 1 to it value
+        if number in modal_values:
+            modal_values[number] += 1
+        #if number not in dictionary then insert as key in dictionary with value 1
+        else:
+            modal_values[number] = 1
+
+
+    #determine the largest value in the dictionary
+    list_values = modal_values.values()
+    max_value = max(list_values)
+    #append thise keys with the largest values to a list
+    for key in modal_values:
+        if modal_values[key] == max_value:
+            list_of_modal_values.append(key)
+
+    #return list of modal values
+    return list_of_modal_values
+
 
 
 def main():
-    #ask user to enter filename and open that file
-    file_name = get_file_name()
+    do_again = True
+    while do_again == True:
+        #ask user to enter filename and open that file
+        file_name = get_file_name()
+        #load number from file into a list
+        list_of_numbers = load_numbers_list(file_name)
 
-    #load number from file into a list
-    list_of_numbers = load_numbers_list(file_name)
+        #check the length of the list
+    
+        if len(list_of_numbers) == 0:
+            print("File was empty")
+        elif len(list_of_numbers) == 1:
+            print("Only one number in file")
+        else:
+            #prints file name
+            print(f"Flie name: {file_name}")
+            #prints sum
+            sum_values = sum_of_list(list_of_numbers)
+            print(f"Sum: {sum_values}")
+            #prints number of numbers
+            print(f"Number count: {len(list_of_numbers)}")
+            #prints average
+            average = sum_values/len(list_of_numbers)
+            print(f"Average: {average}")
+            #prints max
+            print(f"Max: {max(list_of_numbers)}")
+            #prints min
+            print(f"Min: {min(list_of_numbers)}")
+            #prints range
+            range = max(list_of_numbers) - min(list_of_numbers)
+            print(f"Range: {range}")
+            #prints median
+            median = calculate_median_value(list_of_numbers)
+            print(f"Median: {median}")
+            #prints mode
+            modal_values = determine_modal_value(list_of_numbers)
+            print(f"Mode: {modal_values}")
+            go_again_confirmation = False
+            while go_again_confirmation == False:
+                ask_to_go_again = input("Would you like to check another file? y/n\n")
+                if ask_to_go_again != "y" and ask_to_go_again != "n":
+                    print("Please enter either y or n")
+                elif ask_to_go_again == "y":
+                    go_again_confirmation = True
+                else:
+                    do_again = False
+                    go_again_confirmation = True
 
-    print(list_of_numbers)
+
+
+
 main()
