@@ -1,0 +1,13 @@
+from student import Student
+
+def print_student_info(student_object):
+    print(student_object.get_fname())
+    print(student_object.get_lname())
+    print(student_object.get_major())
+    print(student_object.set_major())
+    print(student_object.get_year())
+    print(student_object.set_year())
+    print(student_object.get_gpa())
+    print(student_object.set_gpa())
+    print(student_object.get_id())
+    
