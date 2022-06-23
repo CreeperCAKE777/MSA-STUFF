@@ -1,0 +1,43 @@
+#Create student Class with these attributes
+class Student:
+
+    def __init__(self, fname, lname, major, year, gpa, id):
+
+        self.__fname = fname
+        self.__lname = lname
+        self.__major = major
+        self.__year = year
+        self.__gpa = gpa
+        self.__id = id
+    #First name
+    def get_fname(self):
+        return self.__fname
+    #Last name
+    def get_lname(self):
+        return self.__lname
+    #major
+    def get_major(self):
+        return self.__major
+
+    def set_major(self, new_major):
+        self.__major = new_major
+
+    #year
+    def get_year(self):
+        return self.__year
+
+    def set_year(self, new_year):
+        self.__year = new_year
+    
+    #gpa
+    def get_gpa(self):
+        return self.__gpa
+
+    def set_gpa(self, new_gpa):
+        self.__gpa = new_gpa
+
+
+    #id number
+    def get_id(self):
+        return self.__id
+    #create get/set methods where appropriate
