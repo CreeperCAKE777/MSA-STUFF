@@ -1,13 +1,14 @@
+
 #Create student Class with these attributes
 class Student:
 
-    def __init__(self, fname, lname, major, year, gpa, id):
+    def __init__(self, fname, lname, major, credit_hours, gpa, id):
 
         self.__fname = fname
         self.__lname = lname
         self.__major = major
-        self.__year = year
-        self.__gpa = gpa
+        self.__credit_hours = int(credit_hours)
+        self.__gpa = float(gpa)
         self.__id = id
     #First name
     def get_fname(self):
@@ -23,11 +24,22 @@ class Student:
         self.__major = new_major
 
     #year
-    def get_year(self):
-        return self.__year
+    def get_credit_hours(self):
+        return self.__credit_hours
 
-    def set_year(self, new_year):
-        self.__year = new_year
+    def set_credit_hours(self, new_credit_hours):
+        self.__credit_hours += new_credit_hours
+
+    def get_class_level(self):
+        if self.__credit_hours <= 30 and self.__credit_hours >= 0:
+            class_level = "Freshman"
+        elif self.__credit_hours >= 31 and self.__credit_hours <= 60:
+            class_level = "Sophomore"
+        elif self.__credit_hours >= 61 and self.__credit_hours <=90:
+            class_level = "Junior"
+        else:
+            class_level = "Senior"
+        return class_level
     
     #gpa
     def get_gpa(self):
