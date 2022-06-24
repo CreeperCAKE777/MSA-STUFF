@@ -1,13 +1,47 @@
-from student import Student
+from stoodent import Student
 
-def print_student_info(student_object):
-    print(student_object.get_fname())
-    print(student_object.get_lname())
-    print(student_object.get_major())
-    print(student_object.set_major())
-    print(student_object.get_year())
-    print(student_object.set_year())
-    print(student_object.get_gpa())
-    print(student_object.set_gpa())
-    print(student_object.get_id())
+#create a function that loads the student data from the students .csv file
+#create student objects and place in a list
+#return a list of student objects
+
+def load_students():
+    student_reader = open("students.csv", "r")
+    student_list = []
+    counter = 0
+    for line in student_reader:
+        counter += 1
+        if counter == 1:
+            continue
+        split_line = line.split(",")
+        if len(split_line) != 6:
+            raise Exception(f"There is an error in your data on line {counter}")
+        fname = split_line[0]
+        lname = split_line[1]
+        major = split_line[2]
+        credit_hours = split_line[3]
+        gpa = split_line[4]
+        student_id = split_line[5]
+        student = Student(fname, lname, major, credit_hours, gpa, student_id)
+        student_list.append(student)
+        
     
+    student_reader.close()
+    return student_list
+
+def print_student_data(student_list):
+    for student in student_list:
+        print(f"{student.get_fname()} {student.get_lname()}: {student.get_major()}")
+        print(f"GPA: {student.get_gpa()}")
+        print(f"Class: {student.get_class_level()}")
+        print(f"ID: {student.get_id()}\n")
+
+def sort_list(student_list):
+    student_list.sort(key=lambda the_student: the_student.get_major())
+    return student_list
+
+
+def main():
+    list_of_students = load_students()
+    list_of_students = sort_list(list_of_students)
+    print_student_data(list_of_students)
+main()
