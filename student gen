@@ -1,47 +1,68 @@
-from stoodent import Student
+from student import Student
 
-#create a function that loads the student data from the students .csv file
+#create a function that loads the student data from the students.csv file
 #create student objects and place in a list
-#return a list of student objects
-
+#Return a list of student objects
 def load_students():
-    student_reader = open("students.csv", "r")
-    student_list = []
-    counter = 0
-    for line in student_reader:
-        counter += 1
-        if counter == 1:
-            continue
-        split_line = line.split(",")
-        if len(split_line) != 6:
-            raise Exception(f"There is an error in your data on line {counter}")
-        fname = split_line[0]
-        lname = split_line[1]
-        major = split_line[2]
-        credit_hours = split_line[3]
-        gpa = split_line[4]
-        student_id = split_line[5]
-        student = Student(fname, lname, major, credit_hours, gpa, student_id)
-        student_list.append(student)
-        
-    
-    student_reader.close()
-    return student_list
+    list_of_students = []
+    try:
+        file = open("students.csv", "r")
+        counter = 0
+        for line_of_data in file:
+            counter += 1
+            if counter == 1:
+                continue
+            
+            student_data = line_of_data.split(",")
+            if len(student_data) != 6:
+                raise Exception(f"There is an error in your data file on line {counter}")
 
-def print_student_data(student_list):
-    for student in student_list:
-        print(f"{student.get_fname()} {student.get_lname()}: {student.get_major()}")
+            first_name = student_data[0]
+            last_name = student_data[1]
+            major = student_data[2]
+            credit_hours = int(student_data[3])
+            gpa = float(student_data[4])
+            student_id = student_data[5]
+
+            the_student = Student(first_name, last_name, major, credit_hours, gpa, student_id)
+            list_of_students.append(the_student)
+    except Exception as err:
+        print(err)
+        #print("Error loading students from file")
+    finally:
+        file.close()
+    return list_of_students
+
+
+def print_student_data(list_of_students):
+
+    for student in list_of_students:
+        print(f"{student.get_first_name()} {student.get_last_name()}: {student.get_major()}")
         print(f"GPA: {student.get_gpa()}")
         print(f"Class: {student.get_class_level()}")
-        print(f"ID: {student.get_id()}\n")
+        print(f"ID: {student.get_ID()}")
+    return
 
-def sort_list(student_list):
-    student_list.sort(key=lambda the_student: the_student.get_major())
+
+def stud_dic(list_of_students):
+    student_list = []
+    for student in list_of_students:
+        student_list.append({
+            'id': student.get_ID().rstrip(),
+            'name' : student.get_first_name() + " " + student.get_last_name(),
+            'major' : student.get_major(),
+            'gpa' : student.get_gpa(),
+            'class' : student.get_class_level()
+
+        })
     return student_list
+    
+
+def get_student_dictionaries():
+
+   student_list = load_students()
+   #student_list.sort(key=lambda the_student: the_student.get_major())
+   #print_student_data(student_list)
+   return stud_dic(student_list)
 
 
-def main():
-    list_of_students = load_students()
-    list_of_students = sort_list(list_of_students)
-    print_student_data(list_of_students)
-main()
